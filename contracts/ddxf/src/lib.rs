@@ -106,9 +106,7 @@ fn buy_dtokens(resource_ids: Vec<&[u8]>, ns: Vec<U128>, buyer_account: &Address)
     let l = resource_ids.len();
     assert_eq!(l, ns.len());
     for i in 0..l {
-        let resource_id = resource_ids[i];
-        let n = ns[i];
-        assert!(buy_dtoken(resource_id, n, buyer_account));
+        assert!(buy_dtoken(resource_ids[i], ns[i], buyer_account));
     }
     true
 }
@@ -318,6 +316,9 @@ fn transfer_inner(
             let contract_address = contract_addr.unwrap();
             let res =
                 wasm::call_contract(&contract_address, ("transfer", (from, to, amt))).unwrap();
+            let mut source = Source::new(&res);
+            let r: bool = source.read().unwrap();
+            assert!(r);
         }
     }
     true

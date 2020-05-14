@@ -78,7 +78,6 @@ fn mock_mp_contract(
     let mut sink = Sink::new(12);
     let mut source = Source::new(_data);
     let command = Command::decode(&mut source).ok().unwrap();
-    println!("{:?}", command);
     match command {
         Command::Transfer { from, to, value } => {
             let mut from_ba = ong_balance_map.get(from).map(|val| val.clone()).unwrap();
