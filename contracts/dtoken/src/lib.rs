@@ -29,7 +29,7 @@ fn generate_dtoken(
     n: U128,
 ) -> bool {
     check_caller();
-    runtime::check_witness(account);
+    assert!(runtime::check_witness(account));
     let mut token_templates = database::get::<_, Vec<TokenTemplate>>(
         utils::generate_account_dtokens_key(resource_id, account),
     )

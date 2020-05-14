@@ -65,9 +65,9 @@ fn dtoken_seller_publish(
     let seller = SellerItemInfo::new(item.clone(), resource_ddo.clone());
     database::put(utils::generate_seller_item_info_key(resource_id), seller);
     let mut sink = Sink::new(16);
-    resource_ddo.encode(&mut sink);
+    sink.write(resource_ddo);
     let mut sink2 = Sink::new(16);
-    (*item).encode(&mut sink2);
+    sink2.write(item);
     events::dtoken_seller_publish_event(resource_id, sink.bytes(), sink2.bytes());
     true
 }
