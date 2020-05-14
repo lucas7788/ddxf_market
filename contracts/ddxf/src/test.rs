@@ -7,7 +7,6 @@ use ostd::mock::contract_mock::Command;
 #[test]
 fn publish() {
     let resource_id = b"resource_id";
-
     let mut bmap: BTreeMap<TokenTemplate, RT> = BTreeMap::new();
     let temp = vec![0u8; 36];
     let token_template = TokenTemplate::new(temp);

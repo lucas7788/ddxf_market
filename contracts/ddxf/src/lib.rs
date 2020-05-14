@@ -34,7 +34,7 @@ fn dtoken_seller_publish(
     let resource =
         database::get::<_, SellerItemInfo>(utils::generate_seller_item_info_key(resource_id));
     assert!(resource.is_none());
-    if &resource_ddo.endpoint == "" {
+    if resource_ddo.endpoint.is_empty() {
         assert_ne!(resource_ddo.token_endpoint.len(), 0);
         for token_template in item.templates.iter() {
             assert_ne!(resource_ddo.token_endpoint.get(token_template).unwrap(), "");
@@ -59,7 +59,6 @@ fn dtoken_seller_publish(
             }
         }
     }
-
     if item.templates.len() > 1 {
         assert!(resource_ddo.desc_hash.is_some())
     }
@@ -100,6 +99,17 @@ fn buy_dtoken_from_reseller(
         &item_info.item.templates,
         n
     ));
+    true
+}
+
+fn buy_dtokens(resource_ids: Vec<&[u8]>, ns: Vec<U128>, buyer_account: &Address) -> bool {
+    let l = resource_ids.len();
+    assert_eq!(l, ns.len());
+    for i in 0..l {
+        let resource_id = resource_ids[i];
+        let n = ns[i];
+        assert!(buy_dtoken(resource_id, n, buyer_account));
+    }
     true
 }
 
